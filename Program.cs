@@ -32,16 +32,22 @@ catch (Exception ex)
 
 static async Task<int> RunAsync(string baseDir)
 {
+// 설정 우선순위(뒤가 앞을 덮어씀): appsettings.json → appsettings.Local.json → 환경변수.
+// 실제 API 키는 git에 커밋되는 appsettings.json 대신 Local.json(gitignore) 또는
+// 환경변수 Kasi__ServiceKey 로 주입한다.
 var config = new ConfigurationBuilder()
     .SetBasePath(baseDir)
     .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.Local.json", optional: true)
+    .AddEnvironmentVariables()
     .Build();
 
-string serviceKey = config["Kasi:ServiceKey"] ?? throw new ConfigException("appsettings.json 에 Kasi:ServiceKey 가 없습니다.");
+string serviceKey = config["Kasi:ServiceKey"] ?? "";
 if (string.IsNullOrWhiteSpace(serviceKey) || serviceKey.Contains("여기에"))
     throw new ConfigException(
-        "Kasi:ServiceKey 가 설정되지 않았습니다(기본 안내 문구 그대로입니다). " +
-        "공공데이터포털에서 발급받은 일반 인증키(Decoding)를 appsettings.json 에 넣으세요.");
+        "Kasi:ServiceKey 가 설정되지 않았습니다. 공공데이터포털에서 발급받은 일반 인증키(Decoding)를 " +
+        "appsettings.Local.json 의 Kasi:ServiceKey 에 넣거나, 환경변수 Kasi__ServiceKey 로 설정하세요. " +
+        "(예시 파일: appsettings.Local.json.example)");
 string lunarBase  = config["Kasi:LunarBaseUrl"]!;
 string spcdeBase  = config["Kasi:SpcdeBaseUrl"]!;
 

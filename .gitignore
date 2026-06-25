@@ -10,6 +10,11 @@
 *.userosscache
 *.sln.docstates
 *.env
+.env
+
+# 실제 API 키가 담기는 로컬 설정 (커밋 금지). *.example 템플릿만 커밋.
+appsettings.Local.json
+**/appsettings.Local.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
