@@ -75,6 +75,9 @@ public sealed class DayCell
         }
     }
 
+    /// <summary>오늘 날짜인지 (동그라미 강조용).</summary>
+    public bool IsToday => Date == DateOnly.FromDateTime(DateTime.Today);
+
     public bool IsHoliday => Specials.Any(s => s.Type == SpecialDayType.Holiday);
     public bool IsSunday => Date.DayOfWeek == DayOfWeek.Sunday;
     public bool IsSaturday => Date.DayOfWeek == DayOfWeek.Saturday;

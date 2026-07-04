@@ -20,6 +20,7 @@ public sealed class Theme
     public SKColor TextGanji       = new(0x55, 0x55, 0x55);
     public SKColor TextSolarTerm   = new(0x1E, 0x88, 0x60);   // 절기(초록)
     public SKColor MarkerColor     = new(0xE6, 0x9A, 0x2E);   // 마커(주황)
+    public SKColor TodayCircle     = new(0xE0, 0x20, 0x20);   // 오늘 강조 동그라미(빨강)
 
     // 폰트 캐시
     public SKTypeface Regular { get; }

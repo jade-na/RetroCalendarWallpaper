@@ -116,7 +116,20 @@ public sealed class CalendarRenderer
             cell.IsSaturday ? _t.TextSaturday : _t.TextDefault;
 
         using var dateP = new SKPaint { Color = dateColor, Typeface = _t.Bold, IsAntialias = true, TextSize = r.Height * 0.30f };
-        canvas.DrawText(cell.Date.Day.ToString(), r.Left + pad, r.Top + r.Height * 0.32f, dateP);
+        string dayText = cell.Date.Day.ToString();
+        float dateX = r.Left + pad, dateBaseY = r.Top + r.Height * 0.32f;
+
+        // 오늘 날짜: 숫자 둘레에 동그라미 강조
+        if (cell.IsToday)
+        {
+            float cx = dateX + dateP.MeasureText(dayText) / 2f;
+            float cy = dateBaseY - dateP.TextSize * 0.35f;
+            float radius = r.Height * 0.19f;
+            using var circle = new SKPaint { Color = _t.TodayCircle, IsStroke = true, StrokeWidth = r.Height * 0.02f, IsAntialias = true };
+            canvas.DrawCircle(cx, cy, radius, circle);
+        }
+
+        canvas.DrawText(dayText, dateX, dateBaseY, dateP);
 
         // 마커(택배 등) — 우측 상단 작은 박스
         if (cell.HasMarker)
